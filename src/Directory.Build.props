@@ -1,5 +1,6 @@
 ﻿<Project>
     <PropertyGroup>
         <IsPackable>false</IsPackable>
+        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     </PropertyGroup>
 </Project>

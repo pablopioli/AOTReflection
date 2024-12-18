@@ -1,4 +1,0 @@
-﻿{
-  FirstName: Marry,
-  LastName: Smith
-}
