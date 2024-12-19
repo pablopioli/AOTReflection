@@ -27,8 +27,8 @@ namespace Apparatus.AOT.Reflection
                 return true;
             }
 
-            return Equals(_getGetValue, other._getGetValue) && 
-                   Equals(_setGetValue, other._setGetValue) && Name == other.Name && 
+            return Equals(_getGetValue, other._getGetValue) &&
+                   Equals(_setGetValue, other._setGetValue) && Name == other.Name &&
                    Attributes.SequenceEqual(other.Attributes);
         }
 
@@ -75,14 +75,14 @@ namespace Apparatus.AOT.Reflection
             return !Equals(left, right);
         }
 
-        private readonly Func<TInstance, TPropertyType> _getGetValue;
-        private readonly Action<TInstance, TPropertyType> _setGetValue;
+        private readonly Func<TInstance, TPropertyType>? _getGetValue;
+        private readonly Action<TInstance, TPropertyType>? _setGetValue;
 
         public PropertyInfo(
             string name,
             Attribute[] attributes,
-            Func<TInstance, TPropertyType> getGetValue = null,
-            Action<TInstance, TPropertyType> setGetValue = null)
+            Func<TInstance, TPropertyType>? getGetValue = null,
+            Action<TInstance, TPropertyType>? setGetValue = null)
         {
             Name = name;
             Attributes = attributes;
@@ -100,12 +100,11 @@ namespace Apparatus.AOT.Reflection
         {
             if (instance is TInstance typedInstance && _getGetValue != null)
             {
-                value = _getGetValue.Invoke(typedInstance);
+                value = _getGetValue.Invoke(typedInstance) ?? throw new Exception("Invalid getter");
                 return true;
             }
 
-            value = null;
-            return false;
+            throw new Exception("Invalid getter");
         }
 
         public bool TrySetValue(object instance, object value)

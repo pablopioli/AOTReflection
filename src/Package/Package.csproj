@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>PPioli.AOTReflection</PackageId>
+		<PackageProjectUrl>https://github.com/pablopioli/AOTReflection</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/pablopioli/AOTReflection</RepositoryUrl>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Description>Fork of Apparatus.AOT.Reflection</Description>
+		<PackageTags>source generator, aot, reflection</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<NoPackageAnalysis>true</NoPackageAnalysis>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddAnalyzersToOutput</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AOTReflection\AOTReflection.csproj" />
+		<ProjectReference Include="..\SourceGenerator\SourceGenerator.csproj" />
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<Target Name="_AddAnalyzersToOutput">
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(OutputPath)\SourceGenerator.dll" PackagePath="analyzers/dotnet/cs" />
+			<TfmSpecificPackageFile Include="$(OutputPath)\AOTReflection.dll" PackagePath="lib/netstandard2.0" />
+		</ItemGroup>
+	</Target>
+
+</Project>

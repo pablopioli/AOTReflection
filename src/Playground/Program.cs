@@ -6,6 +6,7 @@ namespace Apparatus.AOT.Reflection.Playground
     {
         public static void Main(string[] _)
         {
+
             var user = new User();
             var properties = user.GetProperties().Values;
             foreach (var property in properties)

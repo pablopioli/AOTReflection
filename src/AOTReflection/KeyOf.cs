@@ -1,5 +1,5 @@
-﻿using System;
-using Apparatus.AOT.Reflection.Core.Stores;
+﻿using Apparatus.AOT.Reflection.Core.Stores;
+using System;
 
 namespace Apparatus.AOT.Reflection
 {
@@ -75,7 +75,7 @@ namespace Apparatus.AOT.Reflection
             return new KeyOf<T>(property);
         }
 
-        public static bool TryParse(string property, out KeyOf<T> key)
+        public static bool TryParse(string property, out KeyOf<T>? key)
         {
             var maybeKeyOf = new KeyOf<T>(property);
             if (MetadataStore<T>.Data.ContainsKey(maybeKeyOf))

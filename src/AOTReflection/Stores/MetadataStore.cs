@@ -13,17 +13,13 @@ namespace Apparatus.AOT.Reflection.Core.Stores
 
     public static class MetadataStore<T>
     {
-        private static Dictionary<KeyOf<T>, IPropertyInfo> data;
+        private static Dictionary<KeyOf<T>?, IPropertyInfo>? data = null;
 
-        public static IReadOnlyDictionary<KeyOf<T>, IPropertyInfo> Data
+        public static IReadOnlyDictionary<KeyOf<T>?, IPropertyInfo> Data
         {
             get
             {
-                if (data == null
-#if DEBUG
-                    || Config.Testing
-#endif
-                   )
+                if (data == null)
                 {
                     var keys = TypedMetadataStore.Types[typeof(T)];
                     data = keys.ToDictionary(o => o.Key as KeyOf<T>, o => o.Value);
@@ -36,7 +32,6 @@ namespace Apparatus.AOT.Reflection.Core.Stores
 
     public static class TypedMetadataStore
     {
-        public static Dictionary<Type, IReadOnlyDictionary<IKeyOf, IPropertyInfo>> Types { get; }
-            = new Dictionary<Type, IReadOnlyDictionary<IKeyOf, IPropertyInfo>>();
+        public static Dictionary<Type, IReadOnlyDictionary<IKeyOf, IPropertyInfo>> Types { get; } = [];
     }
 }

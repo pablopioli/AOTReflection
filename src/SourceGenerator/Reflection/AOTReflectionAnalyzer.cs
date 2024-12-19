@@ -1,9 +1,9 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace Apparatus.AOT.Reflection.SourceGenerator.Reflection
 {
@@ -11,8 +11,8 @@ namespace Apparatus.AOT.Reflection.SourceGenerator.Reflection
     public class AOTReflectionAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
-            = ImmutableArray.Create(DiagnosticDescriptors.EnumDoesntHaveProperties);
-        
+            = [DiagnosticDescriptors.EnumDoesntHaveProperties];
+
         public override void Initialize(AnalysisContext context)
         {
             context.EnableConcurrentExecution();
@@ -30,10 +30,10 @@ namespace Apparatus.AOT.Reflection.SourceGenerator.Reflection
                     context.Compilation.GetTypeByMetadataName("AOTReflectionExtensions");
                 var extensionMethod =
                     extensionType!.GetMembers().OfType<IMethodSymbol>().First(o => o.Name == "GetProperties");
-                
+
                 var semanticModel = context.SemanticModel;
                 var symbol = ModelExtensions.GetSymbolInfo(semanticModel, memberAccess.Name);
-                if (!(symbol.Symbol is IMethodSymbol methodSymbol))
+                if (symbol.Symbol is not IMethodSymbol methodSymbol)
                 {
                     return;
                 }
@@ -53,9 +53,9 @@ namespace Apparatus.AOT.Reflection.SourceGenerator.Reflection
                 {
                     context.ReportDiagnostic(Diagnostic.Create(
                         DiagnosticDescriptors.EnumDoesntHaveProperties,
-                        memberAccess.GetLocation(), 
+                        memberAccess.GetLocation(),
                         typeToBake.Name));
-                    
+
                     return;
                 }
             }
